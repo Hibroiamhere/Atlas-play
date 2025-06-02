@@ -694,8 +694,8 @@ function AtlasGameContent() {
             handleGameOverRef.current(`${userErrorMessage} No retries left.`);
         }
       }
-    } catch (e: any) {
-      console.error("User submission error with local data:", e);
+    } catch (error: unknown) {
+      console.error("User submission error with local data:", error);
       setError('A game error occurred. Please try again.');
       playSoundEffect('error-move.wav');
       setTimeout(() => toast({ 
@@ -724,7 +724,8 @@ function AtlasGameContent() {
   const autoRetryRef = useRef(false);
 
   useEffect(() => {
-    const SpeechRecognitionAPI = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    const SpeechRecognitionAPI = (window as Window & typeof globalThis).SpeechRecognition || 
+                                (window as Window & typeof globalThis).webkitSpeechRecognition;
     if (!SpeechRecognitionAPI) {
       setBrowserSupportsSpeechRecognition(false);
       return;
@@ -830,14 +831,13 @@ function AtlasGameContent() {
           description: "Check out the suggestions.",
           className: "flex items-center gap-2"
         }), 0);
-        setTimeout(() => toast({ title: "Hints Generated!", description: "Check out the suggestions." }), 0);
       } else {
         playSoundEffect('error-move.wav');
         setTimeout(() => toast({ title: "No Hints Found", description: "Could not find suitable hints from local data." }), 0);
       }
       setHintsLeftThisGame(prev => prev - 1);
-    } catch (e: any) {
-      console.error("Hint generation error from local data:", e);
+    } catch (error: unknown) {
+      console.error("Hint generation error from local data:", error);
       setError('Failed to generate hints.');
       playSoundEffect('error-move.wav');
       setTimeout(() => toast({ title: "Hint Error", description: "Failed to generate hints.", variant: "destructive", icon: <ServerCrash className="h-5 w-5"/>}), 0);
@@ -973,20 +973,20 @@ function AtlasGameContent() {
           setTimeout(() => toast({ title: "Share Failed", description: "Could not automatically share or copy. Please use manual links.", variant: "destructive" }), 0);
         }
       }
-    } catch (e: unknown) { 
-      console.error('Error sharing score:', e);
+    } catch (error: unknown) { 
+      console.error('Error sharing score:', error);
       setShowManualShareLinks(true); 
 
-      if (e instanceof DOMException) {
-        if (e.name === 'AbortError') {
+      if (error instanceof DOMException) {
+        if (error.name === 'AbortError') {
           setTimeout(() => toast({ title: "Share Cancelled", description: "You cancelled the share operation." }), 0);
-        } else if (e.name === 'NotAllowedError') {
+        } else if (error.name === 'NotAllowedError') {
           setTimeout(() => toast({ title: "Share Permission Denied", description: "Sharing was blocked. Try manual links or check browser permissions.", variant: "destructive" }), 0);
         } else {
-          setTimeout(() => toast({ title: "Share Error", description: `Share failed: ${e.message}. Try manual links.`, variant: "destructive" }), 0);
+          setTimeout(() => toast({ title: "Share Error", description: `Share failed: ${error.message}. Try manual links.`, variant: "destructive" }), 0);
         }
-      } else if (e instanceof Error) {
-        setTimeout(() => toast({ title: "Share Error", description: `An unexpected error occurred: ${e.message}. Try manual links.`, variant: "destructive" }), 0);
+      } else if (error instanceof Error) {
+        setTimeout(() => toast({ title: "Share Error", description: `An unexpected error occurred: ${error.message}. Try manual links.`, variant: "destructive" }), 0);
       } else {
         setTimeout(() => toast({ title: "Share Error", description: "An unknown error occurred. Try manual links.", variant: "destructive" }), 0);
       }
