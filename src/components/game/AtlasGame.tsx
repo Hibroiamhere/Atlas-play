@@ -777,13 +777,16 @@ function AtlasGameContent() {
           title: "Speech Error",
           description: errorMsg,
           variant: "destructive",
-          action: showRetry ? {
-            altText: "Retry speech recognition",
-            onClick: () => {
-              autoRetryRef.current = false;
-              recognition.start();
-            }
-          } : undefined
+          action: showRetry ? (
+            <ToastAction
+              onClick={() => {
+                autoRetryRef.current = false;
+                recognition.start();
+              }}
+            >
+              Retry
+            </ToastAction>
+          ) : undefined
         });
       }, 0);
       setIsListening(false);
