@@ -46,6 +46,11 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 
+// Add this type to fix build error for SpeechRecognition
+// You can replace 'any' with a more specific type if needed
+
+type SpeechRecognition = any;
+
 const COUNTDOWN_SEQUENCE = ['A', 'T', 'L', 'A', 'S'];
 const INITIAL_RETRIES = 1;
 const MAX_HINTS_PER_GAME = 5;
