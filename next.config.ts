@@ -41,6 +41,9 @@ const config = {
       ],
     },
   ],
+  typescript: {
+    ignoreBuildErrors: false,
+  },
 };
 
 export default config;
