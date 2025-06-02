@@ -280,7 +280,12 @@ function AtlasGameContent() {
     setGamePhase('gameOver');
     setGameOverMessage(message);
     setTimeout(() => {
-        toast({ title: "Game Over", description: message, variant: userWon ? "default" : "destructive" });
+        toast({ 
+          title: "Game Over", 
+          description: message, 
+          variant: userWon ? "default" : "destructive",
+          className: "flex items-center gap-2"
+        });
     }, 0);
     
     userWon ? playSoundEffect('game-over-win.wav') : playSoundEffect('game-over-lose.wav');
@@ -367,11 +372,18 @@ function AtlasGameContent() {
       const online = navigator.onLine;
       setIsOnline(online);
       if (online) {
-        setTimeout(() => toast({ title: "Back Online", description: "Gameplay can resume.", icon: <Wifi className="h-5 w-5 text-green-500" /> }), 0);
-       
+        setTimeout(() => toast({ 
+          title: "Back Online", 
+          description: "Gameplay can resume.",
+          className: "flex items-center gap-2"
+        }), 0);
       } else {
-        setTimeout(() => toast({ title: "You are Offline", description: "Some features may be limited. Please check your connection.", variant: "destructive", icon: <WifiOff className="h-5 w-5" /> }), 0);
-       
+        setTimeout(() => toast({ 
+          title: "You are Offline", 
+          description: "Some features may be limited. Please check your connection.", 
+          variant: "destructive",
+          className: "flex items-center gap-2"
+        }), 0);
       }
     };
 
@@ -456,7 +468,11 @@ function AtlasGameContent() {
         setCurrentPlayer('user');
         setExpectedLetter('S'); // Default starting letter
         playSoundEffect('game-start.wav');
-        setTimeout(() => toast({ title: "Game Start!", description: `Enter a place starting with 'S'` }), 0);
+        setTimeout(() => toast({ 
+          title: "Game Start!", 
+          description: `Enter a place starting with 'S'`,
+          className: "flex items-center gap-2"
+        }), 0);
       }
     }
   }, [gamePhase, countdownStep, playerName, toast, resetGameValues, playSoundEffect]);
@@ -527,7 +543,12 @@ function AtlasGameContent() {
 
     } catch (e: any) {
       console.error("Local opponent turn error:", e);
-      setTimeout(() => toast({ title: "Game Error", description: "An error occurred during the opponent's turn.", variant: "destructive", icon: <ServerCrash className="h-5 w-5"/>}), 0);
+      setTimeout(() => toast({ 
+        title: "Game Error", 
+        description: "An error occurred during the opponent's turn.", 
+        variant: "destructive",
+        className: "flex items-center gap-2"
+      }), 0);
       setGamePhase('playerTurn'); 
       setCurrentPlayer('user'); 
     } finally {
@@ -679,7 +700,12 @@ function AtlasGameContent() {
       console.error("User submission error with local data:", e);
       setError('A game error occurred. Please try again.');
       playSoundEffect('error-move.wav');
-      setTimeout(() => toast({ title: "Error", description: "A game error occurred.", variant: "destructive", icon: <ServerCrash className="h-5 w-5"/>}), 0);
+      setTimeout(() => toast({ 
+        title: "Error", 
+        description: "A game error occurred.", 
+        variant: "destructive",
+        className: "flex items-center gap-2"
+      }), 0);
       if (isOnlineRef.current && !gameOverMessage && !showCelebration && !show25WinsModal && !isPausedRef.current) startPlayerTimer();
     } finally {
       setIsLoading(false);
@@ -714,7 +740,11 @@ function AtlasGameContent() {
     recognition.onstart = () => {
       setIsListening(true);
       setError(null);
-      setTimeout(() => toast({ title: "Listening...", description: "Speak now!" }), 0);
+      setTimeout(() => toast({ 
+        title: "Listening...", 
+        description: "Speak now!",
+        className: "flex items-center gap-2"
+      }), 0);
     };
 
     recognition.onresult = (event: SpeechRecognitionEvent) => {
@@ -797,6 +827,11 @@ function AtlasGameContent() {
       setHints(localHints);
       if(localHints.length > 0) {
         playSoundEffect('hint-popup.wav');
+        setTimeout(() => toast({ 
+          title: "Hints Generated!", 
+          description: "Check out the suggestions.",
+          className: "flex items-center gap-2"
+        }), 0);
         setTimeout(() => toast({ title: "Hints Generated!", description: "Check out the suggestions." }), 0);
       } else {
         playSoundEffect('error-move.wav');
