@@ -45,6 +45,7 @@ import {
 } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import React, { Component, ErrorInfo, ReactNode } from 'react';
+import { ToastAction } from "@/components/ui/toast";
 
 // Remove the any type and use the proper type from speech.d.ts
 // type SpeechRecognition = any;
@@ -486,7 +487,6 @@ function AtlasGameContent() {
     setIsLoading(true);
 
     try {
-      
       await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1000));
       
       if (isPausedRef.current) { 
@@ -539,8 +539,8 @@ function AtlasGameContent() {
       setCurrentPlayer('user');
       setExpectedLetter(getLastLetter(opponentLocation));
 
-    } catch (e: any) {
-      console.error("Local opponent turn error:", e);
+    } catch (error: unknown) {
+      console.error("Local opponent turn error:", error);
       setTimeout(() => toast({ 
         title: "Game Error", 
         description: "An error occurred during the opponent's turn.", 
@@ -777,13 +777,14 @@ function AtlasGameContent() {
           title: "Speech Error",
           description: errorMsg,
           variant: "destructive",
-          action: showRetry ? {
-            children: "Retry",
-            onClick: () => {
+          action: showRetry ? (
+            <ToastAction onClick={() => {
               autoRetryRef.current = false;
               recognition.start();
-            }
-          } : undefined
+            }}>
+              Retry
+            </ToastAction>
+          ) : undefined
         });
       }, 0);
       setIsListening(false);
