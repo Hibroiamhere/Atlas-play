@@ -778,10 +778,13 @@ function AtlasGameContent() {
           description: errorMsg,
           variant: "destructive",
           action: showRetry ? (
-            <ToastAction onClick={() => {
-              autoRetryRef.current = false;
-              recognition.start();
-            }}>
+            <ToastAction 
+              altText="Retry speech recognition"
+              onClick={() => {
+                autoRetryRef.current = false;
+                recognition.start();
+              }}
+            >
               Retry
             </ToastAction>
           ) : undefined
