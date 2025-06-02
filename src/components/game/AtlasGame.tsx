@@ -779,10 +779,12 @@ function AtlasGameContent() {
           variant: "destructive",
           action: showRetry ? (
             <ToastAction
+              altText="Retry speech recognition"
               onClick={() => {
                 autoRetryRef.current = false;
                 recognition.start();
               }}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
               Retry
             </ToastAction>
