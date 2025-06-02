@@ -777,7 +777,7 @@ function AtlasGameContent() {
           description: errorMsg,
           variant: "destructive",
           action: showRetry ? {
-            label: "Retry",
+            children: "Retry",
             onClick: () => {
               autoRetryRef.current = false;
               recognition.start();
