@@ -845,7 +845,7 @@ function AtlasGameContent() {
       console.error("Hint generation error from local data:", error);
       setError('Failed to generate hints.');
       playSoundEffect('error-move.wav');
-      setTimeout(() => toast({ title: "Hint Error", description: "Failed to generate hints.", variant: "destructive", icon: <ServerCrash className="h-5 w-5"/>}), 0);
+      setTimeout(() => toast({ title: "Hint Error", description: "Failed to generate hints.", variant: "destructive" }), 0);
     } finally {
       setIsHintLoading(false);
     }
@@ -882,12 +882,12 @@ function AtlasGameContent() {
       const newPausedState = !prev;
       if (newPausedState) {
         stopPlayerTimer();
-        setTimeout(() => toast({ title: "Game Paused", icon: <PauseIcon className="h-5 w-5" /> }), 0);
+        setTimeout(() => toast({ title: "Game Paused", description: "Timer stopped while paused." }), 0);
       } else {
         if (gamePhaseRef.current === 'playerTurn' && !gameOverMessage && !showCelebration && !show25WinsModal) {
           startPlayerTimer();
         }
-        setTimeout(() => toast({ title: "Game Resumed", icon: <Play className="h-5 w-5" /> }), 0);
+        setTimeout(() => toast({ title: "Game Resumed", description: "Your turn timer is running again." }), 0);
       }
       return newPausedState;
     });
